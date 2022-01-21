@@ -4,25 +4,22 @@ const path = require('path');
 const config = {
   entry: './index.js',
   output: {
-    path: path.resolve(__dirname, '../build'),
     filename: 'main.js',
+    path: path.resolve(__dirname, '../build'),
   },
   context: path.resolve(__dirname, '../src'),
-  plugin: [
+  plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
-      meta: {
-        viewport: 'width=device-with, initial-scale=1',
-      },
     }),
   ],
   module: {
     rules: [
       {
-        test: /\.(jpg|jpeg|png|svg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
         use: {
           loader: 'file-loader',
-          type: 'asset/resource',
           options: {
             name: '[name].[ext]',
             outputPath: 'assets/imgs',
@@ -32,9 +29,9 @@ const config = {
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
         use: {
           loader: 'file-loader',
-          type: 'asset/resource',
           options: {
             name: '[name].[ext]',
             outputPath: 'assets/fonts',

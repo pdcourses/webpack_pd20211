@@ -1,23 +1,22 @@
-const merge = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const commonConfig = require('./webpack.config.common');
 
+const path = require('path');
+//test: /\.s[ac]ss$/i,
 const devConfig = merge(commonConfig, {
   mode: 'development',
   devtool: 'eval',
+  devServer: {
+    static: {
+      directory: path.join(__dirname, '../build'),
+  }},
   module: {
     rules: [
       {
         test: /\.(c|sa|sc)ss$/,
         use: [
           'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              url: true,
-              sourceMap: true,
-              importLoaders: 2,
-            },
-          },
+          'css-loader',
           'sass-loader',
         ],
       },

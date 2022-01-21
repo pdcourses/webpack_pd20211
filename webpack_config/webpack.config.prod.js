@@ -1,5 +1,7 @@
-const merge = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const commonConfig = require('./webpack.config.common');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 
 const prodConfig = merge(commonConfig, {
   mode: 'production',
@@ -7,7 +9,7 @@ const prodConfig = merge(commonConfig, {
   module: {
     rules: [
       {
-        test: /\.css$/i,
+      test: /\.css$/i,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -15,37 +17,9 @@ const prodConfig = merge(commonConfig, {
               esModule: true,
             },
           },
-          {
-            loader: 'css-loader',
-            options: {
-              url: true,
-              sourceMap: true,
-            },
-          },
+          "css-loader",
           'sass-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: (loaderContext) => {
-                if (/\.sss$/.test(loaderContext.resourcePath)) {
-                  return {
-                    parser: 'sugarss',
-                    plugins: [
-                      ['postcss-short', { prefix: 'x' }],
-                      'postcss-preset-env',
-                    ],
-                  };
-                }
-
-                return {
-                  plugins: [
-                    ['postcss-short', { prefix: 'x' }],
-                    'postcss-preset-env',
-                  ],
-                };
-              },
-            },
-          },
+          'postcss-loader'
         ],
       },
     ],
